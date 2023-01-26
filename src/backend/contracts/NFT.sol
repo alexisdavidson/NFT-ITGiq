@@ -20,8 +20,7 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
 
     event MintSuccessful(address user);
 
-    constructor() ERC721A("Genesis Scratchy Card", "GSC") {
-        _mint(msg.sender, 750);
+    constructor() ERC721A("ITGiq", "ITGiq") {
     }
 
     function mint(uint256 quantity) external payable {
@@ -45,7 +44,7 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "ipfs://QmYLpp6TaXjHPENgbDWRWzBQoJuc4zRE5z3sXjXhdYALp3/";
+        return "ipfs://QmbHmGXyyJzJDC91po9KU2xu4gJ92HgvZCBumVrj7pNJin/json/";
     }
     
     function baseTokenURI() public pure returns (string memory) {
@@ -72,15 +71,16 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
         mintEnabled = _state;
     }
 
-    function transferFrom(address from, address to, uint256 tokenId) public override onlyAllowedOperator(from) {
+    function transferFrom(address from, address to, uint256 tokenId) payable public override onlyAllowedOperator(from) {
         super.transferFrom(from, to, tokenId);
     }
 
-    function safeTransferFrom(address from, address to, uint256 tokenId) public override onlyAllowedOperator(from) {
+    function safeTransferFrom(address from, address to, uint256 tokenId) payable public override onlyAllowedOperator(from) {
         super.safeTransferFrom(from, to, tokenId);
     }
 
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data)
+        payable
         public
         override
         onlyAllowedOperator(from)
@@ -94,17 +94,5 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     
     function _startTokenId() internal view override returns (uint256) {
         return 1;
-    }
-
-    function scratch(uint256 _tokenId) public {
-        require(msg.sender == ownerOf(_tokenId), "You don't have the right to scratch this NFT");
-        _burn(_tokenId);
-        burnAmount += 1;
-
-        scratched[msg.sender].push(_tokenId);
-    }
-
-    function getScratched(address _user) public view returns(uint256[] memory) {
-        return scratched[_user];
     }
 }
