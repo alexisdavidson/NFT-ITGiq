@@ -52,7 +52,7 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
     }
 
     function contractURI() public pure returns (string memory) {
-        return "ipfs://QmZn7J1NDdFgJm5Q7pxmivZFKVDjcBcpU9sN1kezBUZpLn/";
+        return "ipfs://QmVmckfgTTvWcwVaXmiq389tnBCYvyhLcCqN7T2R7GFcYf/";
     }
 
     function setAmountMintPerAccount(uint _amountMintPerAccount) public onlyOwner {
