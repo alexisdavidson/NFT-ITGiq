@@ -5,9 +5,12 @@ async function main() {
 
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Account balance:", fromWei(await deployer.getBalance()));
+
+  const teamWallet = "0xc1162882863C55e8cDF8cfCf34758C83709ADF3f" // goerli
+  // const teamWallet = "" // mainnet
   
   const NFT = await ethers.getContractFactory("NFT");
-  const nft = await NFT.deploy();
+  const nft = await NFT.deploy(teamWallet);
   console.log("NFT contract address", nft.address)
   saveFrontendFiles(nft, "NFT");
 

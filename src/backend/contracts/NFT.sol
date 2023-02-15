@@ -14,25 +14,24 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
 
     mapping(address => uint256[]) public scratched;
 
-    uint256 public amountMintPerAccount = 2;
     bool public mintEnabled;
     uint256 public price = 0 ether;
 
     event MintSuccessful(address user);
 
-    constructor() ERC721A("ITGiq", "ITGiq") {
+    constructor(address _teamWallet) ERC721A("Innova Quest", "ITGiq") {
+        _mint(_teamWallet, max_supply);
     }
 
-    function mint(uint256 quantity) external payable {
-        require(mintEnabled, 'Minting is not enabled');
-        require(totalSupply() + quantity < max_supply, 'Cannot mint more than max supply');
-        require(balanceOf(msg.sender) + quantity <= amountMintPerAccount, 'Each address may only mint x NFTs!');
-        require(msg.value >= getPrice() * quantity, "Not enough ETH sent; check price!");
+    // function mint(uint256 quantity) external payable {
+    //     require(mintEnabled, 'Minting is not enabled');
+    //     require(totalSupply() + quantity < max_supply, 'Cannot mint more than max supply');
+    //     require(msg.value >= getPrice() * quantity, "Not enough ETH sent; check price!");
 
-        _mint(msg.sender, quantity);
+    //     _mint(msg.sender, quantity);
 
-        emit MintSuccessful(msg.sender);
-    }
+    //     emit MintSuccessful(msg.sender);
+    // }
 
     function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
         require(_exists(_tokenId), 'ERC721Metadata: URI query for nonexistent token');
@@ -53,10 +52,6 @@ contract NFT is Ownable, ERC721A, DefaultOperatorFilterer {
 
     function contractURI() public pure returns (string memory) {
         return "ipfs://QmVmckfgTTvWcwVaXmiq389tnBCYvyhLcCqN7T2R7GFcYf/";
-    }
-
-    function setAmountMintPerAccount(uint _amountMintPerAccount) public onlyOwner {
-        amountMintPerAccount = _amountMintPerAccount;
     }
 
     function getPrice() view public returns(uint) {
